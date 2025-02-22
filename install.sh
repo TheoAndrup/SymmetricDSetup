@@ -1,7 +1,7 @@
-read -p "Soll das Grundsystem aufgesetzt werden?: js/nein" GRUND_SYSTEM
+read -p "Soll das Grundsystem aufgesetzt werden?: (ja/nein): " GRUND_SYSTEM
 
 if [ "$GRUND_SYSTEM" == "ja" ]; then
-  echo "Installiere Grundsystem (Java, Mariadb und so)"
+  echo "Installiere Grundsystem (Java, Mariadb und so)..."
 
   apt install unzip mariadb-server -y
 
