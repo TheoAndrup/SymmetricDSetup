@@ -76,16 +76,23 @@ echo "Konfigurationsdatei erstellt: $ENGINE_FILE"
 /opt/symmetricds/bin/symadmin --engine $EXTERNAL_ID create-sym-tables
 #/opt/symmetricds/bin/sym --engine $EXTERNAL_ID
 
-# Service-Datei für Systemd erstellen
-SERVICE_FILE="/etc/systemd/system/symmetricds-$EXTERNAL_ID.service"
+read -p "Soll ein Service erstellt werden? (ja/nein): " CREATE_SERVICE
 
+if [ "$CREATE_SERVICE" != "ja" ]; then
+  exit 1
+fi
+
+# Service-Datei für Systemd erstellen
+SERVICE_FILE="/etc/systemd/system/symmetricds.service"
+
+  # shellcheck disable=SC1073
 cat > "$SERVICE_FILE" <<EOL
 [Unit]
-Description=SymmetricDS Node for $EXTERNAL_ID
+Description=SymmetricDS Service
 After=network.target
 
 [Service]
-ExecStart=/opt/symmetricds/bin/sym --engine $EXTERNAL_ID
+ExecStart=/opt/symmetricds/bin/sym
 WorkingDirectory=/opt/symmetricds
 User=root
 Restart=always
@@ -100,8 +107,8 @@ echo "Systemd-Service-Datei erstellt: $SERVICE_FILE"
 # Systemd neu laden, Service starten und aktivieren
 echo "Lade Systemd und starte den Service..."
 sudo systemctl daemon-reload
-sudo systemctl start symmetricds-$EXTERNAL_ID.service
-sudo systemctl enable symmetricds-$EXTERNAL_ID.service
+sudo systemctl start symmetricds.service
+sudo systemctl enable symmetricds.service
 
-echo "SymmetricDS Node $EXTERNAL_ID läuft jetzt als Service!"
+echo "SymmetricDS läuft jetzt als Service!"
 
