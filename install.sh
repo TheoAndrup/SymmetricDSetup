@@ -73,7 +73,7 @@ fi
 
 echo "Konfigurationsdatei erstellt: $ENGINE_FILE"
 
-/opt/symmetricds/bin/symadmin create-sym-tables $EXTERNAL_ID
+/opt/symmetricds/bin/symadmin --engine $EXTERNAL_ID create-sym-tables
 #/opt/symmetricds/bin/sym --engine $EXTERNAL_ID
 
 # Service-Datei für Systemd erstellen
