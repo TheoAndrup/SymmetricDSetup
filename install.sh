@@ -1,20 +1,24 @@
-apt install unzip mariadb-server -y
+read -p "Soll das Grundsystem aufgesetzt werden?: js/nein" GRUND_SYSTEM
 
-wget https://sourceforge.net/projects/symmetricds/files/symmetricds/symmetricds-3.15/symmetric-server-3.15.13.zip
-unzip symmetric-server-3.15.13.zip
-rm symmetric-server-3.15.13.zip
-mv symmetric-server-3.15.13 /opt/symmetricds
+if [ "$GRUND_SYSTEM" == "ja" ]; then
+  echo "Installiere Grundsystem (Java, Mariadb und so)"
 
-apt install openjdk-17-jre -y
+  apt install unzip mariadb-server -y
 
-cd /opt/symmetricds/lib
+  wget https://sourceforge.net/projects/symmetricds/files/symmetricds/symmetricds-3.15/symmetric-server-3.15.13.zip
+  unzip symmetric-server-3.15.13.zip
+  rm symmetric-server-3.15.13.zip
+  mv symmetric-server-3.15.13 /opt/symmetricds
 
-wget https://dlm.mariadb.com/4174416/Connectors/java/connector-java-3.5.2/mariadb-java-client-3.5.2.jar
-#ggf läuft die url ab
+  apt install openjdk-17-jre -y
 
-cd /opt/symmetricds
+  cd /opt/symmetricds/lib
 
-#!/bin/bash
+  wget https://dlm.mariadb.com/4174416/Connectors/java/connector-java-3.5.2/mariadb-java-client-3.5.2.jar
+  #ggf läuft die url ab
+
+  cd /opt/symmetricds
+fi
 
 # Eingaben abfragen
 read -p "Gib die Sync-URL ein (z.B. http://ap.db.host-conductor.com:31416/sync): " SYNC_URL
